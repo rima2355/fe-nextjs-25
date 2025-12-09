@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Manipulasi DOM - JavaScript</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-code"></i> Tugas Manipulasi DOM dengan JavaScript</h1>
+            <p class="subtitle">tugas pbkk 10</p>
+        </header>
+
+        <main>
+            <!-- Bagian 1: Dynamic List -->
+            <section class="task-section" id="dynamic-list">
+                <h2><i class="fas fa-list"></i> 1. Dynamic List (Daftar Dinamis)</h2>
+                <div class="task-content">
+                    <div class="input-group">
+                        <input type="text" id="item-input" placeholder="Masukkan item baru...">
+                        <button id="add-item-btn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Tambah Item
+                        </button>
+                    </div>
+                    <p class="hint">Ketik item di atas, lalu klik tombol "Tambah Item"</p>
+                    
+                    <div class="list-container">
+                        <h3>Daftar Item:</h3>
+                        <ul id="item-list">
+                            <li>Item Contoh 1 <button class="delete-btn"><i class="fas fa-trash"></i> Hapus</button></li>
+                            <li>Item Contoh 2 <button class="delete-btn"><i class="fas fa-trash"></i> Hapus</button></li>
+                        </ul>
+                        <p id="list-count">Jumlah item: 2</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bagian 2: Ubah Warna Background -->
+            <section class="task-section" id="background-changer">
+                <h2><i class="fas fa-palette"></i> 2. Ubah Warna Background Secara Dinamis</h2>
+                <div class="task-content">
+                    <p>Pilih warna untuk mengubah latar belakang halaman:</p>
+                    <div class="color-buttons">
+                        <button id="red-btn" class="color-btn red">
+                            <i class="fas fa-square"></i> Merah
+                        </button>
+                        <button id="green-btn" class="color-btn green">
+                            <i class="fas fa-square"></i> Hijau
+                        </button>
+                        <button id="blue-btn" class="color-btn blue">
+                            <i class="fas fa-square"></i> Biru
+                        </button>
+                        <button id="reset-color-btn" class="color-btn reset">
+                            <i class="fas fa-undo"></i> Reset Warna
+                        </button>
+                    </div>
+                    <p class="current-color">Warna saat ini: <span id="current-color-text">Putih</span></p>
+                </div>
+            </section>
+
+            <!-- Bagian 3: Counter -->
+            <section class="task-section" id="counter">
+                <h2><i class="fas fa-calculator"></i> 3. Counter dengan DOM Manipulation</h2>
+                <div class="task-content">
+                    <div class="counter-container">
+                        <div class="counter-display">
+                            <span id="counter-value">0</span>
+                        </div>
+                        <div class="counter-controls">
+                            <button id="decrement-btn" class="btn btn-counter decrement">
+                                <i class="fas fa-minus"></i> --
+                            </button>
+                            <button id="reset-btn" class="btn btn-counter reset">
+                                <i class="fas fa-sync-alt"></i> Reset
+                            </button>
+                            <button id="increment-btn" class="btn btn-counter increment">
+                                <i class="fas fa-plus"></i> +
+                            </button>
+                        </div>
+                        <p class="counter-hint">Gunakan tombol di atas untuk mengubah nilai counter</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bagian 4: Toggle Show/Hide -->
+            <section class="task-section" id="toggle-section">
+                <h2><i class="fas fa-eye"></i> 4. Toggle Show/Hide Element</h2>
+                <div class="task-content">
+                    <button id="toggle-btn" class="btn btn-toggle">
+                        <i class="fas fa-eye-slash"></i> Tampilkan / Sembunyikan
+                    </button>
+                    
+                    <div id="toggle-content" class="hidden">
+                        <div class="toggle-card">
+                            <h3><i class="fas fa-info-circle"></i> Konten yang Bisa Disembunyikan</h3>
+                            <p>Ini adalah konten yang dapat ditampilkan atau disembunyikan dengan mengeklik tombol di atas.</p>
+                            <p>Fitur ini menggunakan metode <code>classList.toggle()</code> untuk menambah atau menghapus kelas CSS.</p>
+                            <p>Konten ini sekarang <strong>terlihat</strong>. Klik tombol "Tampilkan / Sembunyikan" untuk menyembunyikannya.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Informasi DOM Methods -->
+            <section class="info-section">
+                <h2><i class="fas fa-tasks"></i> Metode DOM yang Digunakan</h2>
+                <div class="methods-grid">
+                    <div class="method-card">
+                        <h3><i class="fas fa-plus-circle"></i> document.createElement()</h3>
+                        <p>Digunakan untuk membuat elemen HTML baru secara dinamis.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3><i class="fas fa-save"></i> appendChild()</h3>
+                        <p>Menambahkan elemen baru sebagai anak dari elemen parent.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3><i class="fas fa-trash-alt"></i> remove()</h3>
+                        <p>Menghapus elemen dari DOM.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3><i class="fas fa-paint-brush"></i> style.property</h3>
+                        <p>Mengubah properti style elemen (seperti backgroundColor).</p>
+                    </div>
+                    <div class="method-card">
+                        <h3><i class="fas fa-font"></i> textContent</h3>
+                        <p>Mengubah atau membaca konten teks dari elemen.</p>
+                    </div>
+                    <div class="method-card">
+                        <h3><i class="fas fa-toggle-on"></i> classList.toggle()</h3>
+                        <p>Menambah atau menghapus kelas CSS dari elemen (toggle).</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Tugas Manipulasi DOM - Dibuat untuk memenuhi ketentuan tugas</p>
+            <p>Menggunakan HTML, CSS, dan JavaScript murni</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
