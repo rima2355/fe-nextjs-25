@@ -1,9 +1,10 @@
 'use client';
 
-import Layout from '@/app/layout';
-import { serviceShow, serviceUpdate } from '@/services/services';
+import Layout from '@/commponents/ui/Layout';
+import { serviceShow, serviceUpdate } from '@/services/serviceShow';
 import { Button, TextField } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { useParams, useRouter } from 'next/navigation';
 
@@ -29,7 +30,7 @@ export default function ProductCategoryEdit() {
         description: response.data.description || '',
       });
     } else {
-      console.log(response.message);
+      toast.error(response.message);
     }
     setFetching(false);
   }, [id]);
@@ -64,21 +65,21 @@ export default function ProductCategoryEdit() {
             Object.entries(response.message).forEach(([key, value]) => {
               if (Array.isArray(value)) {
                 setIsError((prevError) => ({ ...prevError, [key]: true }));
-                console.log(value[0]);
+                toast.error(value[0]);
               }
             });
           } else {
-            console.log(response.message);
+            toast.error(response.message);
           }
         }
       } else {
-        console.log(response.data.message);
+        toast.success(response.data.message);
         router.push('/product-category');
       }
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Something went wrong';
-        console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }
@@ -129,7 +130,7 @@ export default function ProductCategoryEdit() {
           />
         </div>
         <div className="flex justify-end">
-          <Button type="submit" variant="contained" >
+          <Button type="submit" variant="contained" loading={isLoading}>
             Submit
           </Button>
         </div>

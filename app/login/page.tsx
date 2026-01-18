@@ -21,31 +21,31 @@ import {
 // Gunakan icon pengganti berbasis SVG sendiri:
 const Visibility = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
-    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5Zm0 13A5.5 5.5 0 1 1 17.5 12A5.5 5.5 0 0 1 12 17.5Zm0-9A3.5 3.5 0 1 0 15.5 12A3.5 3.5 0 0 0 12 8.5Z" fill="currentColor"/>
+    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5Zm0 13A5.5 5.5 0 1 1 17.5 12A5.5 5.5 0 0 1 12 17.5Zm0-9A3.5 3.5 0 1 0 15.5 12A3.5 3.5 0 0 0 12 8.5Z" fill="currentColor" />
   </svg>
 );
 const VisibilityOff = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
-    <path d="M17.94 17.94a10.42 10.42 0 0 1-5.94 1.56c-5 0-9.27-3.11-11-7.5A12.88 12.88 0 0 1 6.31 6.34M9.53 9.53A3.49 3.49 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.49 3.49 0 0 1-.98 2.47M1 1l22 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M17.94 17.94a10.42 10.42 0 0 1-5.94 1.56c-5 0-9.27-3.11-11-7.5A12.88 12.88 0 0 1 6.31 6.34M9.53 9.53A3.49 3.49 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5a3.49 3.49 0 0 1-.98 2.47M1 1l22 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
   </svg>
 );
 const Email = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
-    <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" strokeWidth="2"/>
-    <path d="m22 6l-10 7L2 6" stroke="currentColor" strokeWidth="2"/>
+    <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" strokeWidth="2" />
+    <path d="m22 6l-10 7L2 6" stroke="currentColor" strokeWidth="2" />
   </svg>
 );
 const Lock = (props: React.SVGProps<SVGSVGElement>) => (
   <svg {...props} viewBox="0 0 24 24" fill="none">
-    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2"/>
-    <path d="M12 17v-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="2"/>
+    <rect x="5" y="11" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
+    <path d="M12 17v-2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" strokeWidth="2" />
   </svg>
 );
 import Link from 'next/link';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-// ganti 'signIn' dengan 'signInService' jika memang implementasi login memakai itu
+import { toast } from 'react-toastify';
 import { signInService } from '@/services/services';
 
 export default function LoginPage() {
@@ -79,30 +79,38 @@ export default function LoginPage() {
       if (response.error) {
         if (response.message == 'Token has expired') {
           Cookies.remove('token');
+          toast.error('Session expired. Please login again.');
           router.push('/');
         } else if (response.message) {
           if (typeof response.message === 'object') {
             Object.entries(response.message).forEach(([key, value]) => {
               if (Array.isArray(value)) {
                 setIsError((prevError) => ({ ...prevError, [key]: true }));
-                console.log(value[0]);
+                toast.error(value[0]);
               }
             });
           } else {
-            console.log(response.message);
+            toast.error(response.message || 'Invalid email or password');
           }
+        } else {
+          toast.error('Invalid email or password');
         }
       } else {
-        const token = response.data.data.token;
-        const tokenBase64 = btoa(token);
-        Cookies.set('token', tokenBase64, { expires: 1 });
-        console.log(response.data.message);
-        router.push('/');
+        // Handle both response structures
+        const token = response.data?.token || response.data?.data?.token;
+        if (token) {
+          const tokenBase64 = btoa(token);
+          Cookies.set('token', tokenBase64, { expires: 7 });
+          toast.success('Login successful!');
+          router.push('/product-category');
+        } else {
+          toast.error('Login failed. Please try again.');
+        }
       }
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'Something went wrong';
-      console.log(message);
+      toast.error(message);
     } finally {
       setIsLoading(false);
     }

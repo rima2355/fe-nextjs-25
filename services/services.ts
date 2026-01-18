@@ -71,6 +71,7 @@ export async function serviceUpdate(
 
 export async function serviceDestroy(params: string, id: string) {
   const url = `${ROOT_API}/${API_VERSION}/${params}/${id}`;
+  console.log('DELETE URL:', url);
 
   return callAPI({
     url,

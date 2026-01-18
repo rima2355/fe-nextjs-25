@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import Button from "@mui/material/Button";                                          
+import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { serviceDestroy } from "@/services/services";
+import { toast } from "react-toastify";
 
 interface ConfirmDeleteProps {
   isOpen: boolean;
@@ -28,18 +29,21 @@ export default function ConfirmDelete({
 
   const handleDelete = async () => {
     setIsLoading(true);
+    console.log("Deleting with ID:", id, "Type:", typeof id);
+    console.log("hrefDelete:", hrefDelete);
     try {
-      const response = await serviceDestroy(hrefDelete!, id as string);
+      const response = await serviceDestroy(hrefDelete!, String(id));
+      console.log("Delete response:", response);
       if (response.error) {
-        console.error(response.message);
+        toast.error(response.message || "Failed to delete");
       } else {
-        console.log(response.data.message);
+        toast.success(response.data?.message || "Deleted successfully");
         if (refresh) {
           await refresh();
         }
       }
     } catch (error: any) {
-      console.error(error.message);
+      toast.error(error.message || "Something went wrong");
     } finally {
       setIsLoading(false);
       onClose();

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import Navbar from './Navbar';
+import { ToastContainer } from 'react-toastify';
 
 
 interface LayoutProps {
@@ -14,6 +15,7 @@ export default function Layout({ children }: LayoutProps) {
      
       <Navbar/>
       {children}
+      <ToastContainer/>
     </main>
   </div>
   )
