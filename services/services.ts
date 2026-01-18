@@ -78,3 +78,15 @@ export async function serviceDestroy(params: string, id: string) {
     token: true,
   });
 }
+
+export async function signInService(data: FormData) {
+  const url = `${ROOT_API}/${API_VERSION}/auth/login`;
+
+  return callAPI({
+    url,
+    method: 'POST',
+    data,
+    token: false,
+    contentType: 'multipart/form-data',
+  });
+}
